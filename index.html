@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yash Borse — ENTC Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #060a12;
+      --surface: #0d1524;
+      --surface2: #121d33;
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --accent3: #10b981;
+      --text: #e8edf5;
+      --muted: #6b7a99;
+      --border: rgba(0, 212, 255, 0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: rgba(6, 10, 18, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 120px 48px 80px;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .hero-glow2 {
+      position: absolute;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%);
+      top: 20%; right: -100px;
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 800px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -3px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 .accent-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-tagline {
+      margin-top: 20px;
+      font-size: 1.15rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-cta {
+      margin-top: 40px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #060a12;
+    }
+
+    .btn-primary:hover {
+      background: #fff;
+      box-shadow: 0 0 30px rgba(0,212,255,0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      padding: 100px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 48px;
+    }
+
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 auto;
+    }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #a0aec0;
+      margin-bottom: 20px;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-tag {
+      padding: 6px 14px;
+      background: rgba(0,212,255,0.06);
+      border: 1px solid rgba(0,212,255,0.18);
+      border-radius: 6px;
+      font-size: 0.82rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .stat-card:hover {
+      border-color: rgba(0,212,255,0.4);
+      transform: translateY(-4px);
+    }
+
+    .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* ─── ACHIEVEMENTS ─── */
+    .achievements-bg {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .achievements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .achievement-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .achievement-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+    }
+
+    .achievement-item:hover {
+      border-color: rgba(0,212,255,0.35);
+      transform: translateX(6px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .achievement-icon {
+      width: 48px; height: 48px;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .achievement-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .achievement-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── CERTIFICATES ─── */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s;
+      
+    }
+
+    .cert-card:hover {
+      border-color: rgba(0,212,255,0.45);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(0,212,255,0.08);
+    }
+
+    .cert-preview {
+      position: relative;
+      height: 220px;
+      background: var(--surface2);
+      overflow: hidden;
+    }
+
+    .cert-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+      transform: scale(1);
+      transform-origin: top left;
+    }
+
+    .cert-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, var(--surface) 100%);
+    }
+
+    .cert-type-badge {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: rgba(0,212,255,0.9);
+      color: #060a12;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    .cert-body {
+      padding: 20px 24px 24px;
+    }
+
+    .cert-icon-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .cert-icon {
+      width: 38px; height: 38px;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+
+    .cert-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .cert-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .cert-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .cert-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .cert-btn-download {
+      background: var(--accent);
+      color: #060a12;
+    }
+
+    .cert-btn-download:hover {
+      background: #fff;
+      box-shadow: 0 0 20px rgba(0,212,255,0.4);
+    }
+
+    .cert-btn-view {
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .cert-btn-view:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .contact-info h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .contact-info p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      transform: translateX(6px);
+    }
+
+    .contact-link-icon {
+      width: 40px; height: 40px;
+      background: rgba(0,212,255,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-link-text {
+      font-size: 0.9rem;
+    }
+
+    .contact-link-label {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    .contact-cta-box {
+      background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(124,58,237,0.08));
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 24px;
+      padding: 48px 40px;
+      text-align: center;
+    }
+
+    .contact-cta-box h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .contact-cta-box p {
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .footer-copy {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ─── FLOATING SHAPES ─── */
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      section { padding: 70px 24px; }
+      .about-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
+      .hero { padding: 120px 24px 60px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YB.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#certificates">Certificates</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Available for opportunities</div>
+    <h1>Yash<br><span class="accent-text">Borse</span></h1>
+    <p class="hero-tagline">
+      Electronics & Telecommunication Engineer<br>
+      Robotics · Embedded Systems · AI
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 4.69 2 2 0 016.68 2.5h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L10.91 9.9a16 16 0 006.29 6.29l1.56-1.56a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Get in Touch
+      </a>
+      <a href="#achievements" class="btn btn-outline">
+        View Work
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Who I Am</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-title">Building the<br>future of tech.</div>
+      <p>
+        I'm a final-year Electronics & Telecommunication Engineering student with a deep passion for where hardware meets intelligence — robotics, embedded systems, and AI-based applications.
+      </p>
+      <p>
+        From designing circuits to training models, I love turning complex ideas into real-world systems that matter.
+      </p>
+      <div class="skills-grid" style="margin-top: 28px;">
+        <span class="skill-tag">Embedded C</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Arduino</span>
+        <span class="skill-tag">Raspberry Pi</span>
+        <span class="skill-tag">OpenCV</span>
+        <span class="skill-tag">Robotics</span>
+        <span class="skill-tag">PCB Design</span>
+        <span class="skill-tag">Machine Learning</span>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Research Paper Published</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Major Projects Built</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2025</div>
+        <div class="stat-label">Graduating Year</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">ENTC</div>
+        <div class="stat-label">Engineering Branch</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ACHIEVEMENTS -->
+<div class="achievements-bg">
+  <section id="achievements">
+    <div class="section-label">What I've Done</div>
+    <div class="section-title">Achievements &<br>Projects</div>
+    <div class="achievements-list">
+
+      <div class="achievement-item">
+        <div class="achievement-icon">📄</div>
+        <div>
+          <div class="achievement-title">Published Research Paper — Journal of Technology (2025)</div>
+          <div class="achievement-desc">Authored and published a peer-reviewed research paper contributing to the field of electronics and emerging technologies.</div>
+        </div>
+      </div>
+
+      <div class="achievement-item">
+        <div class="achievement-icon">🏆</div>
+        <div>
+          <div class="achievement-title">Smart Reader for Blind People</div>
+          <div class="achievement-desc">Designed and built an assistive device leveraging computer vision and text-to-speech to help visually impaired individuals read printed text in real-time.</div>
+        </div>
+      </div>
+
+      <div class="achievement-item">
+        <div class="achievement-icon">🚁</div>
+        <div>
+          <div class="achievement-title">Autonomous Surveillance Drone (In Progress)</div>
+          <div class="achievement-desc">Currently developing a fully autonomous drone system capable of independent navigation and real-time aerial surveillance using embedded AI.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- CERTIFICATES -->
+<section id="certificates">
+  <div class="section-label">Credentials</div>
+  <div class="section-title">Certificates &<br>Certifications</div>
+
+  <div class="certs-grid">
+
+    <!-- Cert 1 -->
+    <div class="cert-card">
+      <div class="cert-preview">
+        <iframe src="/images/31518 ROC.pdf" title="Embedded Systems Certificate"></iframe>
+        <div class="cert-overlay"></div>
+        <div class="cert-type-badge">PDF</div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-icon-row">
+          <div class="cert-icon">🔌</div>
+          <div>
+            <div class="cert-title">Embedded Systems Certification</div>
+          </div>
+        </div>
+        <div class="cert-meta">Verified Certificate · 2024</div>
+        <div class="cert-actions">
+          <a href="/images/31518 ROC.pdf" download="Embedded_Systems_Certificate.pdf" class="cert-btn cert-btn-download">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download
+          </a>
+          <a href="/images/31518 ROC.pdf" target="_blank" class="cert-btn cert-btn-view">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            View
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cert 2 -->
+    <div class="cert-card">
+      <div class="cert-preview">
+        <iframe src="/images/Design Grant certificate 473861-001.pdf" title="Design Grant Certificate"></iframe>
+        <div class="cert-overlay"></div>
+        <div class="cert-type-badge">PDF</div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-icon-row">
+          <div class="cert-icon">🐍</div>
+          <div>
+            <div class="cert-title">Design Grant Certificate</div>
+          </div>
+        </div>
+        <div class="cert-meta">Verified Certificate · 2024</div>
+        <div class="cert-actions">
+          <a href="/images/Design Grant certificate 473861-001.pdf" download="Design_Grant_Certificate.pdf" class="cert-btn cert-btn-download">
+            <svg width="14" height="14" fill="none" stroke="none" stroke-width="2.5" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.5" d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download
+          </a>
+          <a href="/images/Design Grant certificate 473861-001.pdf" target="_blank" class="cert-btn cert-btn-view">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            View
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cert 3 -->
+    <div class="cert-card">
+      <div class="cert-preview">
+        <iframe src="/images/Registration certificate.pdf" title="Registration Certificate"></iframe>
+        <div class="cert-overlay"></div>
+        <div class="cert-type-badge">PDF</div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-icon-row">
+          <div class="cert-icon">📋</div>
+          <div>
+            <div class="cert-title">Registration Certificate</div>
+          </div>
+        </div>
+        <div class="cert-meta">Official Document · 2024</div>
+        <div class="cert-actions">
+          <a href="/images/Registration certificate.pdf" download="Registration_Certificate.pdf" class="cert-btn cert-btn-download">
+            <svg width="14" height="14" fill="none" stroke="none" stroke-width="2.5" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2.5" d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download
+          </a>
+          <a href="/images/Registration certificate.pdf" target="_blank" class="cert-btn cert-btn-view">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            View
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <div class="section-label">Say Hello</div>
+      <h2 class="section-title" style="margin-bottom:16px;">Let's Build<br>Something Great.</h2>
+      <p>Whether you have a project idea, research collaboration, or just want to connect — my inbox is always open.</p>
+      <div class="contact-links">
+        <a href="mailto:borseyash123@gmail.com" class="contact-link">
+          <div class="contact-link-icon">✉️</div>
+          <div class="contact-link-text">
+            <div class="contact-link-label">Email</div>
+            borseyash123@gmail.com
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/yash-borse-b17a8a303/" target="_blank" class="contact-link">
+          <div class="contact-link-icon">🔗</div>
+          <div class="contact-link-text">
+            <div class="contact-link-label">LinkedIn</div>
+            yash-borse-b17a8a303
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-cta-box">
+      <h3>Open to Collaborations</h3>
+      <p>Final year projects, research, internships, or freelance embedded systems work — let's talk!</p>
+      <a href="mailto:borseyash123@gmail.com" class="btn btn-primary" style="display:inline-flex;">
+        Send an Email
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">YB.</div>
+  <div class="footer-copy">© 2026 Yash Borse · Electronics & Telecommunication Engineer</div>
+</footer>
+
+</body>
+</html>
+```
